@@ -5,6 +5,9 @@ services:
     image: mysql:5.7
     volumes:
       - db_data:/var/lib/mysql
+      - ./data/:/docker-entrypoint-initdb.d/
+    ports:
+      - "9999:3306"
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: somewordpress
@@ -17,8 +20,7 @@ services:
       - db
     image: wordpress:latest
     volumes:
-      - ./themes:/var/www/html/wp-content/themes
-      - ./plugins:/var/www/html/wp-content/plugins
+      - ./themes/sofya-theme:/var/www/html/wp-content/themes/sofya-them
     ports:
       - "8000:80"
     restart: always
@@ -38,5 +40,6 @@ services:
     environment:
       PMA_HOST: db
       MYSQL_ROOT_PASSWORD: password
+
 volumes:
   db_data : {}
